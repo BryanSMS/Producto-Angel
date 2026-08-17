@@ -48,10 +48,15 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Precachea todo el JS/CSS/HTML del build y las imágenes locales de
-        // /public, para que el catálogo cargue completo sin conexión luego
-        // de la primera visita.
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico}'],
+        // Precachea únicamente el app shell (JS/CSS/HTML/SVG/iconos) para que
+        // la primera visita sea rápida. Las fotografías de producto NO se
+        // precachean aquí: se sirven vía runtimeCaching (ver abajo) la
+        // primera vez que el usuario las ve, y quedan disponibles offline
+        // desde ese momento.
+        globPatterns: ['**/*.{js,css,html,svg,ico,png}'],
+        // Red de seguridad adicional: aunque cambie la extensión de las
+        // fotos en el futuro, esta carpeta nunca debe entrar al precache.
+        globIgnores: ['productos/**'],
         navigateFallback: '/index.html',
         runtimeCaching: [
           {
