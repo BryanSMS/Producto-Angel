@@ -1,0 +1,248 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 20, 17, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+  box-shadow: var(--shadow-xl);
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-drag-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-border);
+  margin: 0.6rem auto 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-full);
+  padding: 0.5rem;
+  z-index: 10;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-border);
+}
+
+.modal-close:hover,
+.modal-close:focus-visible {
+  background-color: var(--color-background);
+  outline: none;
+}
+
+.modal-close:active {
+  transform: scale(0.95);
+}
+
+.modal-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--color-surface-sunken);
+  overflow: hidden;
+}
+
+.modal-unavailable-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 24, 22, 0.45);
+}
+
+.modal-unavailable-overlay span {
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(20, 24, 22, 0.85);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.modal-info {
+  padding: 1.5rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.modal-brand {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.modal-unit {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.5rem;
+}
+
+.modal-price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.modal-price-tag {
+  padding: 0.45rem 1rem 0.45rem 1.4rem;
+}
+
+.modal-price-tag .price-current {
+  font-size: 1.5rem;
+}
+
+.modal-chip {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-brand-dark);
+  background: var(--color-brand-light);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+}
+
+.modal-description {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.modal-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.modal-meta-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.88rem;
+}
+
+.modal-meta-row dt {
+  color: var(--color-text-secondary);
+}
+
+.modal-meta-row dd {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.modal-meta-row dd.is-available {
+  color: var(--color-available);
+}
+
+.modal-meta-row dd.is-unavailable {
+  color: var(--color-error);
+}
+
+.modal-whatsapp-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg);
+  background-color: #25d366;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.modal-whatsapp-button:hover,
+.modal-whatsapp-button:focus-visible {
+  background-color: #1eb956;
+  outline: none;
+}
+
+.modal-whatsapp-button:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 640px) {
+  .modal-overlay {
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .modal-content {
+    border-radius: var(--radius-xl);
+    max-height: 85vh;
+  }
+
+  .modal-drag-handle {
+    display: none;
+  }
+
+  .modal-info {
+    padding: 2rem 2.25rem 2.25rem;
+  }
+
+  .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .modal-price-tag .price-current {
+    font-size: 1.7rem;
+  }
+}

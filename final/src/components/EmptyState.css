@@ -1,0 +1,76 @@
+.empty-state {
+  background-color: var(--color-background);
+  padding: 3rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  flex: 1;
+}
+
+.empty-state-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  max-width: 400px;
+  animation: slideUp 0.4s ease-out;
+}
+
+.empty-state-icon {
+  color: var(--color-brand);
+  opacity: 0.7;
+}
+
+.empty-state-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.empty-state-description {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.empty-state-button {
+  padding: 0.875rem 1.75rem;
+  background-color: var(--color-brand);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.empty-state-button:hover,
+.empty-state-button:focus-visible {
+  background-color: var(--color-brand-dark);
+  color: #fff;
+  outline: none;
+  border-color: var(--color-brand-dark);
+}
+
+.empty-state-button:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 640px) {
+  .empty-state {
+    min-height: 500px;
+  }
+
+  .empty-state-title {
+    font-size: 1.75rem;
+  }
+
+  .empty-state-description {
+    font-size: 1rem;
+  }
+}

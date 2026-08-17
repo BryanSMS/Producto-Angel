@@ -1,0 +1,22 @@
+.result-counter {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  background-color: var(--color-background);
+}
+
+.result-text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .result-counter {
+    padding: 1.25rem 1rem;
+  }
+
+  .result-text {
+    font-size: 0.9rem;
+  }
+}
