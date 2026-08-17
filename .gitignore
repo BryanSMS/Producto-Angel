@@ -14,3 +14,4 @@ node_modules
 dist/
 .next/
 .DS_Store
+dev-dist/
