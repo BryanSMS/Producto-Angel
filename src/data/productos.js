@@ -18,6 +18,13 @@
 //   descripcion     string  texto corto opcional para la ficha de producto
 //   destacado       boolean si aparece en la fila de destacados del inicio
 //   disponible      boolean si hay stock en tienda
+//   preciosPorCantidad  Array<{cantidad:number, precio:number}>  opcional.
+//     Estructura genérica y reutilizable para productos cuyo precio varía
+//     según la cantidad comprada (ej. chicles, caramelos por unidad/paquete).
+//     `precio` sigue siendo el precio unitario que se muestra en la tarjeta;
+//     este arreglo solo añade niveles adicionales que se listan en el detalle
+//     del producto. Los productos que no lo definen (la mayoría) no se ven
+//     afectados en absoluto.
 // ---------------------------------------------------------------------------
 
 export const productos = [
@@ -121,6 +128,20 @@ export const productos = [
     disponible: true,
   },
   {
+    id: 'P-001',
+    nombre: 'Powerade',
+    marca: 'Powerade',
+    categoria: 'Bebidas',
+    grupo: 'Deportivas',
+    precio: 2.5,
+    precioAnterior: null,
+    unidad: '',
+    imagen: '/productos/P-001.webp',
+    descripcion: '',
+    destacado: false,
+    disponible: true,
+  },
+  {
     id: 'BEB-008',
     nombre: 'Cerveza Pilsen Callao',
     marca: 'Pilsen',
@@ -176,6 +197,20 @@ export const productos = [
     destacado: false,
     disponible: true,
   },
+  {
+    id: 'P-007',
+    nombre: 'Jugo Del Valle durazno',
+    marca: 'Del Valle',
+    categoria: 'Bebidas',
+    grupo: 'Jugos',
+    precio: 5.0,
+    precioAnterior: null,
+    unidad: '1 L',
+    imagen: '/productos/P-007.webp',
+    descripcion: '',
+    destacado: false,
+    disponible: true,
+  },
 
   // ---------------------------------------------------------- Snacks y Dulces
   {
@@ -221,6 +256,34 @@ export const productos = [
     disponible: true,
   },
   {
+    id: 'P-003',
+    nombre: 'Cheetos sabor queso',
+    marca: 'Cheetos',
+    categoria: 'Snacks y Dulces',
+    grupo: 'Snacks salados',
+    precio: 1.5,
+    precioAnterior: null,
+    unidad: '',
+    imagen: '/productos/P-003.webp',
+    descripcion: '',
+    destacado: false,
+    disponible: true,
+  },
+  {
+    id: 'P-004',
+    nombre: 'Piqueo Snax',
+    marca: 'Snax',
+    categoria: 'Snacks y Dulces',
+    grupo: 'Snacks salados',
+    precio: 2.5,
+    precioAnterior: null,
+    unidad: '',
+    imagen: '/productos/P-004.webp',
+    descripcion: '',
+    destacado: false,
+    disponible: true,
+  },
+  {
     id: 'DUL-001',
     nombre: 'Caramelos de menta',
     marca: 'Halls',
@@ -231,6 +294,27 @@ export const productos = [
     unidad: 'Bolsa 24 un.',
     imagen: '/productos/dul-001.webp',
     descripcion: 'Caramelos refrescantes sabor menta.',
+    destacado: false,
+    disponible: true,
+  },
+  {
+    id: 'P-006',
+    nombre: 'Chiclets',
+    marca: 'Chiclets',
+    categoria: 'Snacks y Dulces',
+    grupo: 'Caramelos',
+    precio: 0.2,
+    precioAnterior: null,
+    unidad: 'c/u',
+    imagen: '/productos/P-006.webp',
+    descripcion: '',
+    // Precio por unidad (S/ 0.20 c/u, mostrado en la tarjeta). Estos niveles
+    // adicionales se listan en el detalle del producto sin convertirse en
+    // productos separados.
+    preciosPorCantidad: [
+      { cantidad: 4, precio: 0.5 },
+      { cantidad: 8, precio: 1.0 },
+    ],
     destacado: false,
     disponible: true,
   },
@@ -276,6 +360,20 @@ export const productos = [
     destacado: false,
     disponible: true,
   },
+  {
+    id: 'P-002',
+    nombre: 'Chocolate Princesa',
+    marca: 'Princesa',
+    categoria: 'Snacks y Dulces',
+    grupo: 'Chocolates',
+    precio: 2.5,
+    precioAnterior: null,
+    unidad: '',
+    imagen: '/productos/P-002.webp',
+    descripcion: '',
+    destacado: false,
+    disponible: true,
+  },
 
   // -------------------------------------------------------------- Galletas
   {
@@ -290,6 +388,20 @@ export const productos = [
     imagen: '/productos/gal-001.webp',
     descripcion: 'Galletas de chocolate rellenas de crema.',
     destacado: true,
+    disponible: true,
+  },
+  {
+    id: 'P-005',
+    nombre: 'Galletas Rellenitas sabor coco',
+    marca: 'Rellenitas',
+    categoria: 'Galletas',
+    grupo: 'Rellenas',
+    precio: 0.5,
+    precioAnterior: null,
+    unidad: '',
+    imagen: '/productos/P-005.webp',
+    descripcion: '',
+    destacado: false,
     disponible: true,
   },
   {

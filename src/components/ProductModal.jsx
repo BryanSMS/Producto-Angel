@@ -89,6 +89,16 @@ export function ProductModal({ product, isOpen, onClose }) {
           )}
 
           <dl className="modal-meta">
+            {product.preciosPorCantidad && product.preciosPorCantidad.length > 0 && (
+              <div className="modal-meta-row">
+                <dt>Por cantidad</dt>
+                <dd>
+                  {product.preciosPorCantidad
+                    .map((tier) => `${tier.cantidad} por ${formatPrice(tier.precio)}`)
+                    .join(' · ')}
+                </dd>
+              </div>
+            )}
             <div className="modal-meta-row">
               <dt>Categoría</dt>
               <dd>{product.categoria}{product.grupo ? ` · ${product.grupo}` : ''}</dd>
