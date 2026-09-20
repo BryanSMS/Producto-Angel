@@ -23,12 +23,12 @@
 .product-image-wrapper::before {
   content: '';
   position: absolute;
-  width: 80%;
+  width: calc(66% + var(--object-depth, 0.5) * 16%);
   height: 30%;
   bottom: 0;
   background: radial-gradient(ellipse, #050b0866, transparent 70%);
   transform: translateZ(-12px) scale(calc(1 - var(--proximity) * 0.12));
-  opacity: calc(0.8 - var(--proximity) * 0.3);
+  opacity: calc(0.5 + var(--object-depth, 0.5) * 0.22 - var(--proximity) * 0.3);
   pointer-events: none;
 }
 
@@ -37,6 +37,10 @@
   height: 88%;
   transform: translateZ(calc(var(--proximity) * 12px)) rotate(var(--object-angle, 0deg)) scale(calc(var(--object-scale, 1) * var(--search-scale, 1)));
   transition: transform 220ms var(--motion-ease);
+}
+
+.product-card .product-image {
+  filter: drop-shadow(0 calc(10px + var(--object-depth, 0.5) * 12px) calc(12px + var(--object-depth, 0.5) * 7px) #070c0a45);
 }
 
 .product-info {
@@ -76,6 +80,13 @@
 
 .product-card:focus-visible .product-name {
   color: var(--color-brand);
+}
+
+@media (max-width: 899px), (hover: none), (pointer: coarse) {
+  .product-image-wrapper .product-image-frame {
+    --object-scale: 1;
+    --object-angle: 0deg;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

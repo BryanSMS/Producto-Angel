@@ -27,6 +27,7 @@ export function ProductGrid({
         {catalog.map((product) => {
           const visible = visibleIds.has(product.id);
           const placement = getProductPlacement(product.id);
+          const foreground = placement.depth >= 0.85;
           return (
             <div
               key={product.id}
@@ -34,15 +35,18 @@ export function ProductGrid({
               data-flip-id={product.id}
               data-visible={visible}
               data-depth={placement.depth}
+              data-composition={foreground ? 'foreground' : 'recessed'}
               aria-hidden={!visible}
               inert={!visible}
             >
               <div
                 className="product-placement"
                 style={{
-                  '--object-x': `${placement.x}px`,
-                  '--object-y': `${placement.y}px`,
-                  '--object-scale': placement.scale,
+                  '--object-x': `${Math.round(placement.x * 1.5)}px`,
+                  '--object-y': `${Math.round((placement.y - 12) * 1.65)}px`,
+                  '--object-scale': placement.scale + (foreground ? 0.035 : -0.005),
+                  '--object-inset': `${foreground ? 0 : placement.depth <= 0.35 ? 24 : 12}px`,
+                  '--object-depth': placement.depth,
                   '--object-angle': `${placement.angle}deg`,
                 }}
               >
