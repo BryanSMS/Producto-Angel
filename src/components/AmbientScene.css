@@ -1,0 +1,10 @@
+.ambient-scene { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 800ms ease; }
+.ambient-scene[data-ready='true'] { opacity: 1; }
+.ambient-scene canvas { display: block; width: 100%; height: 100%; pointer-events: none; }
+.ambient-scene[data-ready='true'] + .environment {
+  background: linear-gradient(180deg, #18201ddb, #18201d24 24%, #18201d08 58%, #18201d50);
+}
+.ambient-scene[data-ready='true'] + .environment .environment-glow { opacity: 0.25; }
+.ambient-scene[data-ready='true'] + .environment .environment-floor { opacity: 0; }
+@media (max-width: 767px) { .ambient-scene { display: none; } }
+@media (prefers-reduced-motion: reduce) { .ambient-scene { transition: none; } }

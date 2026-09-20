@@ -10,11 +10,6 @@
   position: absolute; inset: -15%;
   background: radial-gradient(ellipse at 48% 36%, #727c5336, transparent 44%), radial-gradient(ellipse at 87% 76%, #63707724, transparent 45%);
 }
-.environment-wordmark {
-  position: absolute; top: 23vh; left: 50%; transform: translateX(-50%);
-  font-size: clamp(12rem, 30vw, 38rem); font-weight: 600; line-height: 1;
-  letter-spacing: -0.09em; color: #d8e2cb08; white-space: nowrap;
-}
 .environment-floor {
   position: absolute; width: 160%; height: 72vh; left: -30%; top: 65vh;
   border-radius: 50%; border: 1px solid #d5dcc411;
@@ -51,6 +46,5 @@
 @media (max-width: 600px) {
   .control-deck { top: 64px; width: calc(100% - 32px); gap: 8px; }
   .workspace { padding: 198px 18px 44px; }
-  .environment-wordmark { top: 33vh; font-size: 40vw; }
   .environment-floor { top: 58vh; }
 }

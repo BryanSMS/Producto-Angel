@@ -12,6 +12,13 @@
 }
 .placeholder-orb::before { content: ''; position: absolute; inset: 9%; border-radius: 50%; border: 1px solid #e1e7d008; transform: rotate(-30deg) scaleX(0.84); }
 .placeholder-orb svg { width: 38%; height: 38%; opacity: 0.82; filter: drop-shadow(2px 8px 8px #00000040); }
+.product-card .placeholder-orb {
+  width: 66%;
+  border-color: #d4dcc518;
+  background: radial-gradient(circle at 27% 19%, #e6efc90d, transparent 48%), radial-gradient(circle at 68% 77%, #121a1780, transparent 70%), #2d3731d9;
+  box-shadow: inset 2px 3px 12px #e9f3d606, inset -14px -18px 28px #0e181d1c, 14px 22px 32px #0a120c1c;
+}
+.product-card .placeholder-orb svg { opacity: 0.74; }
 .product-image-placeholder::after {
   content: ''; position: absolute; z-index: -1; width: 76%; height: 12%; bottom: -2%;
   background: radial-gradient(ellipse, #090e0b75, transparent 68%);

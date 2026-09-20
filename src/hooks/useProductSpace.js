@@ -29,9 +29,7 @@ export function useProductSpace(rootRef, enabled) {
           cameraY: quick(camera, 'y'), cameraZ: quick(camera, 'z'),
         };
       });
-      const wordmark = document.querySelector('.environment-wordmark');
       const glow = document.querySelector('.environment-glow');
-      const backgroundY = quick(wordmark, 'y');
       const glowY = quick(glow, 'y');
 
       // Cache document coordinates in one read batch. Scrolling and pointer events
@@ -64,7 +62,6 @@ export function useProductSpace(rootRef, enabled) {
         const scrollY = window.scrollY;
         const height = window.innerHeight;
         const visible = arranged.filter(box => box.top + box.height - scrollY > -150 && box.top - scrollY < height + 150);
-        backgroundY(-Math.min(scrollY, 2400) * 0.055);
         glowY(-Math.min(scrollY, 2400) * 0.022);
         visible.forEach(box => {
           const progress = clamp(-1, 1, (box.top + box.height / 2 - scrollY - height / 2) / height);
@@ -141,8 +138,8 @@ export function useProductSpace(rootRef, enabled) {
           [item.moveX, item.moveY, item.lift, item.zoom, item.z, item.tiltX, item.tiltY, item.presence, item.cameraY, item.cameraZ].forEach(tween => tween.tween.kill());
           gsap.set([item.card, item.drift, item.camera], { clearProps: 'transform,--proximity' });
         });
-        backgroundY.tween.kill(); glowY.tween.kill();
-        gsap.set([wordmark, glow], { clearProps: 'transform' });
+        glowY.tween.kill();
+        gsap.set(glow, { clearProps: 'transform' });
       };
     }, root);
     return () => media.revert();

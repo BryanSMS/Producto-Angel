@@ -6,6 +6,7 @@ import { CategoryFilter } from './components/CategoryFilter';
 import { ResultCounter } from './components/ResultCounter';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductModal } from './components/ProductModal';
+import { AmbientScene } from './components/AmbientScene';
 import { gsap, motionQuery } from './utils/animations';
 import { productos, categorias } from './data/productos';
 import { filterProducts, getGruposByCategoria } from './utils/search';
@@ -21,6 +22,7 @@ export default function App() {
   const [activeGrupo, setActiveGrupo] = useState('Todos');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ambientFocused, setAmbientFocused] = useState(false);
   const grupos = useMemo(() => getGruposByCategoria(productos, activeCategory), [activeCategory]);
   const filteredProducts = filterProducts(productos, searchQuery, activeCategory, activeGrupo);
   const filterKey = JSON.stringify([searchQuery, activeCategory, activeGrupo]);
@@ -61,12 +63,15 @@ export default function App() {
       placeholder: Boolean(element.querySelector('.product-image-placeholder')),
     };
     setSelectedProduct(product);
+    setAmbientFocused(true);
     setIsModalOpen(true);
   }, []);
   const handleModalClose = useCallback(() => {
+    setAmbientFocused(false);
     setIsModalOpen(false);
     setSelectedProduct(null);
   }, []);
+  const handleFocusClosing = useCallback(() => setAmbientFocused(false), []);
   const handleResetFilters = useCallback(() => {
     gridAnimationRef.current?.capture();
     setSearchQuery('');
@@ -76,9 +81,9 @@ export default function App() {
 
   return (
     <div className={`app ${showSplash ? 'is-arriving' : ''}`}>
+      <AmbientScene focused={ambientFocused} />
       <div className="environment" aria-hidden="true">
         <div className="environment-glow" />
-        <div className="environment-wordmark">ÁNGEL</div>
         <div className="environment-floor" />
         <div className="environment-grain" />
       </div>
@@ -102,7 +107,7 @@ export default function App() {
       </main>
       <div className="space-caption" aria-hidden="true"><span>CONSULTA DE TIENDA</span><span>Todo, a mano.</span></div>
       <div className="space-guide" aria-hidden="true"><span /> Explora el espacio</div>
-      <ProductModal product={selectedProduct} isOpen={isModalOpen} origin={focusOrigin.current} onClose={handleModalClose} />
+      <ProductModal product={selectedProduct} isOpen={isModalOpen} origin={focusOrigin.current} onCloseStart={handleFocusClosing} onClose={handleModalClose} />
     </div>
   );
 }

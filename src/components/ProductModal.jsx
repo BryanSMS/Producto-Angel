@@ -5,13 +5,14 @@ import { gsap, motionQuery } from '../utils/animations';
 import { ProductImage } from './ProductImage';
 import './ProductModal.css';
 
-export function ProductModal({ product, isOpen, origin, onClose }) {
+export function ProductModal({ product, isOpen, origin, onCloseStart, onClose }) {
   const dialogRef = useRef(null);
   const opening = useRef(null);
   const closing = useRef(null);
 
   const requestClose = useCallback(() => {
     if (closing.current) return;
+    onCloseStart?.();
     opening.current?.progress(1);
     if (!window.matchMedia(motionQuery).matches) { onClose(); return; }
     const dialog = dialogRef.current;
@@ -31,7 +32,7 @@ export function ProductModal({ product, isOpen, origin, onClose }) {
         scaleX: to.width / from.width, scaleY: to.height / from.height,
         duration: 0.42, ease: 'power3.inOut',
       } : { opacity: 0, scale: 0.86, y: 20, duration: 0.26, ease: 'power2.in' }, 0);
-  }, [onClose, origin]);
+  }, [onClose, onCloseStart, origin]);
 
   useLayoutEffect(() => {
     const dialog = dialogRef.current;
