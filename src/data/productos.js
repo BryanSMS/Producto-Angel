@@ -7,6 +7,9 @@
 //
 // Campos:
 //   id              string  código único del producto (también sirve de SKU)
+//   barcode         string|null  código real como texto; conserva ceros iniciales
+//   barcodeFormat   string|null  'ean_13', 'ean_8', 'upc_a' o 'upc_e'
+//     Ambos quedan en null hasta registrar el código real del envase.
 //   nombre          string  nombre visible del producto
 //   marca           string  marca o fabricante ('' si no aplica)
 //   categoria       string  categoría principal (debe existir en `categorias`)
@@ -31,6 +34,8 @@ export const productos = [
   // ---------------------------------------------------------------- Bebidas
   {
     id: 'BEB-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Inca Kola',
     marca: 'Inca Kola',
     categoria: 'Bebidas',
@@ -45,6 +50,8 @@ export const productos = [
   },
   {
     id: 'BEB-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Coca-Cola',
     marca: 'Coca-Cola',
     categoria: 'Bebidas',
@@ -59,6 +66,8 @@ export const productos = [
   },
   {
     id: 'BEB-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Agua sin gas',
     marca: 'Cielo',
     categoria: 'Bebidas',
@@ -73,6 +82,8 @@ export const productos = [
   },
   {
     id: 'BEB-004',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Agua con gas',
     marca: 'San Luis',
     categoria: 'Bebidas',
@@ -87,6 +98,8 @@ export const productos = [
   },
   {
     id: 'BEB-005',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Red Bull',
     marca: 'Red Bull',
     categoria: 'Bebidas',
@@ -101,6 +114,8 @@ export const productos = [
   },
   {
     id: 'BEB-006',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Volt',
     marca: 'Volt',
     categoria: 'Bebidas',
@@ -115,6 +130,8 @@ export const productos = [
   },
   {
     id: 'BEB-007',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Gatorade',
     marca: 'Gatorade',
     categoria: 'Bebidas',
@@ -129,6 +146,8 @@ export const productos = [
   },
   {
     id: 'P-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Powerade',
     marca: 'Powerade',
     categoria: 'Bebidas',
@@ -143,6 +162,8 @@ export const productos = [
   },
   {
     id: 'BEB-008',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Cerveza Pilsen Callao',
     marca: 'Pilsen',
     categoria: 'Bebidas',
@@ -157,6 +178,8 @@ export const productos = [
   },
   {
     id: 'BEB-009',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Cerveza Cusqueña',
     marca: 'Cusqueña',
     categoria: 'Bebidas',
@@ -171,6 +194,8 @@ export const productos = [
   },
   {
     id: 'BEB-010',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Yogurt bebible fresa',
     marca: 'Gloria',
     categoria: 'Bebidas',
@@ -185,6 +210,8 @@ export const productos = [
   },
   {
     id: 'BEB-011',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Yogurt griego natural',
     marca: 'Laive',
     categoria: 'Bebidas',
@@ -199,6 +226,8 @@ export const productos = [
   },
   {
     id: 'P-007',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Jugo Del Valle durazno',
     marca: 'Del Valle',
     categoria: 'Bebidas',
@@ -215,6 +244,8 @@ export const productos = [
   // ---------------------------------------------------------- Snacks y Dulces
   {
     id: 'SNK-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Papas fritas clásicas',
     marca: 'Lays',
     categoria: 'Snacks y Dulces',
@@ -229,6 +260,8 @@ export const productos = [
   },
   {
     id: 'SNK-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Piqueo surtido',
     marca: 'Inca',
     categoria: 'Snacks y Dulces',
@@ -243,6 +276,8 @@ export const productos = [
   },
   {
     id: 'SNK-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Chizitos queso',
     marca: 'Karinto',
     categoria: 'Snacks y Dulces',
@@ -257,6 +292,8 @@ export const productos = [
   },
   {
     id: 'P-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Cheetos sabor queso',
     marca: 'Cheetos',
     categoria: 'Snacks y Dulces',
@@ -271,6 +308,8 @@ export const productos = [
   },
   {
     id: 'P-004',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Piqueo Snax',
     marca: 'Snax',
     categoria: 'Snacks y Dulces',
@@ -285,6 +324,8 @@ export const productos = [
   },
   {
     id: 'DUL-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Caramelos de menta',
     marca: 'Halls',
     categoria: 'Snacks y Dulces',
@@ -299,6 +340,8 @@ export const productos = [
   },
   {
     id: 'P-006',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Chiclets',
     marca: 'Chiclets',
     categoria: 'Snacks y Dulces',
@@ -320,6 +363,8 @@ export const productos = [
   },
   {
     id: 'DUL-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Gomitas surtidas',
     marca: 'Vidal',
     categoria: 'Snacks y Dulces',
@@ -334,6 +379,8 @@ export const productos = [
   },
   {
     id: 'CHO-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Chocolate con leche',
     marca: 'Sublime',
     categoria: 'Snacks y Dulces',
@@ -348,6 +395,8 @@ export const productos = [
   },
   {
     id: 'CHO-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Chocolate bitter 70%',
     marca: 'Costa',
     categoria: 'Snacks y Dulces',
@@ -362,6 +411,8 @@ export const productos = [
   },
   {
     id: 'P-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Chocolate Princesa',
     marca: 'Princesa',
     categoria: 'Snacks y Dulces',
@@ -378,6 +429,8 @@ export const productos = [
   // -------------------------------------------------------------- Galletas
   {
     id: 'GAL-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Galletas rellenitas',
     marca: 'Oreo',
     categoria: 'Galletas',
@@ -392,6 +445,8 @@ export const productos = [
   },
   {
     id: 'P-005',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Galletas Rellenitas sabor coco',
     marca: 'Rellenitas',
     categoria: 'Galletas',
@@ -406,6 +461,8 @@ export const productos = [
   },
   {
     id: 'GAL-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Galletas soda',
     marca: 'Field',
     categoria: 'Galletas',
@@ -420,6 +477,8 @@ export const productos = [
   },
   {
     id: 'GAL-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Galletas de vainilla',
     marca: 'Casino',
     categoria: 'Galletas',
@@ -434,6 +493,8 @@ export const productos = [
   },
   {
     id: 'GAL-004',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Galletas integrales',
     marca: 'Field',
     categoria: 'Galletas',
@@ -450,6 +511,8 @@ export const productos = [
   // -------------------------------------------------------------- Abarrotes
   {
     id: 'ABA-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Arroz extra',
     marca: 'Costeño',
     categoria: 'Abarrotes',
@@ -464,6 +527,8 @@ export const productos = [
   },
   {
     id: 'ABA-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Azúcar rubia',
     marca: 'Cartavio',
     categoria: 'Abarrotes',
@@ -478,6 +543,8 @@ export const productos = [
   },
   {
     id: 'ABA-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Aceite vegetal',
     marca: 'Primor',
     categoria: 'Abarrotes',
@@ -492,6 +559,8 @@ export const productos = [
   },
   {
     id: 'ABA-004',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Fideos spaghetti',
     marca: 'Don Vittorio',
     categoria: 'Abarrotes',
@@ -506,6 +575,8 @@ export const productos = [
   },
   {
     id: 'ABA-005',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Fideos tallarín',
     marca: 'Nicolini',
     categoria: 'Abarrotes',
@@ -520,6 +591,8 @@ export const productos = [
   },
   {
     id: 'ABA-006',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Atún en aceite',
     marca: 'Florida',
     categoria: 'Abarrotes',
@@ -534,6 +607,8 @@ export const productos = [
   },
   {
     id: 'ABA-007',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Leche evaporada',
     marca: 'Gloria',
     categoria: 'Abarrotes',
@@ -550,6 +625,8 @@ export const productos = [
   // --------------------------------------------------------- Higiene Personal
   {
     id: 'HIG-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Shampoo anticaspa',
     marca: 'Head & Shoulders',
     categoria: 'Higiene Personal',
@@ -564,6 +641,8 @@ export const productos = [
   },
   {
     id: 'HIG-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Jabón de tocador',
     marca: 'Dove',
     categoria: 'Higiene Personal',
@@ -578,6 +657,8 @@ export const productos = [
   },
   {
     id: 'HIG-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Cepillo dental suave',
     marca: 'Colgate',
     categoria: 'Higiene Personal',
@@ -592,6 +673,8 @@ export const productos = [
   },
   {
     id: 'HIG-004',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Máquina de afeitar desechable',
     marca: 'Gillette',
     categoria: 'Higiene Personal',
@@ -606,6 +689,8 @@ export const productos = [
   },
   {
     id: 'HIG-005',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Pasta dental',
     marca: 'Colgate',
     categoria: 'Higiene Personal',
@@ -622,6 +707,8 @@ export const productos = [
   // ----------------------------------------------------------- Cuidado del Bebé
   {
     id: 'BEB-P01',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Pañales talla M',
     marca: 'Huggies',
     categoria: 'Cuidado del Bebé',
@@ -636,6 +723,8 @@ export const productos = [
   },
   {
     id: 'BEB-P02',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Pañales talla G',
     marca: 'Pampers',
     categoria: 'Cuidado del Bebé',
@@ -650,6 +739,8 @@ export const productos = [
   },
   {
     id: 'BEB-P03',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Toallitas húmedas',
     marca: 'Huggies',
     categoria: 'Cuidado del Bebé',
@@ -666,6 +757,8 @@ export const productos = [
   // ------------------------------------------------------- Limpieza del Hogar
   {
     id: 'LIM-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Detergente en polvo',
     marca: 'Ariel',
     categoria: 'Limpieza del Hogar',
@@ -680,6 +773,8 @@ export const productos = [
   },
   {
     id: 'LIM-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Lejía',
     marca: 'Sapolio',
     categoria: 'Limpieza del Hogar',
@@ -694,6 +789,8 @@ export const productos = [
   },
   {
     id: 'LIM-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Limpiador de pisos',
     marca: 'Sapolio',
     categoria: 'Limpieza del Hogar',
@@ -708,6 +805,8 @@ export const productos = [
   },
   {
     id: 'LIM-004',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Lavavajilla líquido',
     marca: 'Sapolio',
     categoria: 'Limpieza del Hogar',
@@ -724,6 +823,8 @@ export const productos = [
   // ------------------------------------------------------------------- Papel
   {
     id: 'PAP-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Papel higiénico',
     marca: 'Suave',
     categoria: 'Papel',
@@ -738,6 +839,8 @@ export const productos = [
   },
   {
     id: 'PAP-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Papel toalla',
     marca: 'Elite',
     categoria: 'Papel',
@@ -752,6 +855,8 @@ export const productos = [
   },
   {
     id: 'PAP-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Servilletas',
     marca: 'Elite',
     categoria: 'Papel',
@@ -768,6 +873,8 @@ export const productos = [
   // ------------------------------------------------------------------- Otros
   {
     id: 'OTR-001',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Pilas alcalinas AA',
     marca: 'Duracell',
     categoria: 'Otros',
@@ -782,6 +889,8 @@ export const productos = [
   },
   {
     id: 'OTR-002',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Fósforos',
     marca: 'La Llama',
     categoria: 'Otros',
@@ -796,6 +905,8 @@ export const productos = [
   },
   {
     id: 'OTR-003',
+    barcode: null,
+    barcodeFormat: null,
     nombre: 'Bolsas de basura',
     marca: 'Rey',
     categoria: 'Otros',
