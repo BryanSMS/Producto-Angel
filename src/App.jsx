@@ -1,21 +1,20 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react';
 import { SplashScreen } from './components/SplashScreen';
 import { Header } from './components/Header';
-import { HeroMessage } from './components/HeroMessage';
 import { SearchBar } from './components/SearchBar';
 import { CategoryFilter } from './components/CategoryFilter';
 import { ResultCounter } from './components/ResultCounter';
-import { FeaturedRow } from './components/FeaturedRow';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductModal } from './components/ProductModal';
-import { EmptyState } from './components/EmptyState';
-import { Footer } from './components/Footer';
+import { gsap, motionQuery } from './utils/animations';
 import { productos, categorias } from './data/productos';
 import { filterProducts, getGruposByCategoria } from './utils/search';
 import './App.css';
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
+  const workspaceRef = useRef(null);
+  const gridAnimationRef = useRef(null);
+  const [showSplash, setShowSplash] = useState(() => window.matchMedia(motionQuery).matches);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [activeGrupo, setActiveGrupo] = useState('Todos');
@@ -28,24 +27,38 @@ export default function App() {
   );
 
   const filteredProducts = filterProducts(productos, searchQuery, activeCategory, activeGrupo);
+  const filterKey = JSON.stringify([searchQuery, activeCategory, activeGrupo]);
+  const finishSplash = useCallback(() => setShowSplash(false), []);
 
-  const showFeatured = !searchQuery && activeCategory === 'Todos';
-  const featuredProducts = productos.filter((p) => p.destacado && p.disponible);
+  useLayoutEffect(() => {
+    if (showSplash) return;
+    const media = gsap.matchMedia();
+    media.add(motionQuery, () => {
+      gsap.fromTo(workspaceRef.current.querySelectorAll('.workspace-heading, .search-container, .category-filter'),
+        { y: 8, opacity: 0.7 },
+        { y: 0, opacity: 1, duration: 0.3, stagger: 0.04, ease: 'power2.out', clearProps: 'transform,opacity' });
+    });
+    return () => media.revert();
+  }, [showSplash]);
 
   const handleSearchChange = useCallback((query) => {
+    gridAnimationRef.current?.capture();
     setSearchQuery(query);
   }, []);
 
   const handleSearchClear = useCallback(() => {
+    gridAnimationRef.current?.capture();
     setSearchQuery('');
   }, []);
 
   const handleCategoryChange = useCallback((category) => {
+    gridAnimationRef.current?.capture();
     setActiveCategory(category);
     setActiveGrupo('Todos');
   }, []);
 
   const handleGrupoChange = useCallback((grupo) => {
+    gridAnimationRef.current?.capture();
     setActiveGrupo(grupo);
   }, []);
 
@@ -56,10 +69,11 @@ export default function App() {
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
-    setTimeout(() => setSelectedProduct(null), 300);
+    setSelectedProduct(null);
   }, []);
 
   const handleResetFilters = useCallback(() => {
+    gridAnimationRef.current?.capture();
     setSearchQuery('');
     setActiveCategory('Todos');
     setActiveGrupo('Todos');
@@ -67,44 +81,49 @@ export default function App() {
 
   return (
     <div className="app">
-      {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+      {showSplash && <SplashScreen onFinish={finishSplash} />}
+      <a className="skip-link" href="#workspace">Ir a productos</a>
       <Header />
-      <HeroMessage />
-      <SearchBar
-        value={searchQuery}
-        onChange={handleSearchChange}
-        onClear={handleSearchClear}
-      />
-      <CategoryFilter
-        categories={categorias}
-        activeCategory={activeCategory}
-        onChange={handleCategoryChange}
-        grupos={grupos}
-        activeGrupo={activeGrupo}
-        onChangeGrupo={handleGrupoChange}
-      />
-      {showFeatured && (
-        <FeaturedRow products={featuredProducts} onProductClick={handleProductClick} />
-      )}
-
-      <ResultCounter count={filteredProducts.length} />
-
-      {filteredProducts.length > 0 ? (
-        <ProductGrid
-          products={filteredProducts}
-          onProductClick={handleProductClick}
+      <main ref={workspaceRef} className="workspace" id="workspace" tabIndex={-1}>
+        <div className="workspace-heading">
+          <p className="workspace-eyebrow">Consulta de tienda</p>
+          <h1>Productos<span aria-hidden="true">.</span></h1>
+        </div>
+        <SearchBar
+          value={searchQuery}
+          onChange={handleSearchChange}
+          onClear={handleSearchClear}
         />
-      ) : (
-        <EmptyState onReset={handleResetFilters} />
-      )}
+        <CategoryFilter
+          categories={categorias}
+          activeCategory={activeCategory}
+          onChange={handleCategoryChange}
+          grupos={grupos}
+          activeGrupo={activeGrupo}
+          onChangeGrupo={handleGrupoChange}
+        />
+        <div className="workspace-results">
+          <h2>{activeCategory === 'Todos' ? 'Todos los productos' : activeCategory}</h2>
+          <ResultCounter count={filteredProducts.length} />
+        </div>
+        <ProductGrid
+          catalog={productos}
+          products={filteredProducts}
+          filterKey={filterKey}
+          searchActive={Boolean(searchQuery.trim())}
+          ready={!showSplash}
+          focusOpen={isModalOpen}
+          animationRef={gridAnimationRef}
+          onProductClick={handleProductClick}
+          onReset={handleResetFilters}
+        />
+      </main>
 
       <ProductModal
         product={selectedProduct}
         isOpen={isModalOpen}
         onClose={handleModalClose}
       />
-
-      <Footer />
     </div>
   );
 }

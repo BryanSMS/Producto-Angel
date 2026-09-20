@@ -1,41 +1,42 @@
 .search-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
-  background-color: var(--color-background);
+  width: 100%;
+  margin-bottom: 1.75rem;
 }
 
 .search-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
-  background-color: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 0 1rem;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
+  gap: 1rem;
+  min-height: 76px;
+  padding: 0 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .search-wrapper:focus-within {
   border-color: var(--color-brand);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 0 0 3px #d0ed9712;
 }
 
 .search-icon {
-  color: var(--color-text-secondary);
+  color: var(--color-brand);
   flex-shrink: 0;
-  margin-right: 0.75rem;
 }
 
 .search-input {
+  min-width: 0;
   width: 100%;
-  border: none;
+  border: 0;
   background: none;
   color: var(--color-text-primary);
-  padding: 0.875rem 0;
+  padding: 1.25rem 0;
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+}
+
+.search-input:focus-visible {
   outline: none;
-  font-size: 1rem;
 }
 
 .search-input::placeholder {
@@ -47,31 +48,22 @@
   align-items: center;
   justify-content: center;
   color: var(--color-text-secondary);
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
-  margin-left: 0.5rem;
-  padding: 0.25rem;
   border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
+  transition: color 180ms ease, background-color 180ms ease;
 }
 
-.search-clear:hover,
-.search-clear:focus {
+.search-clear:hover {
   color: var(--color-text-primary);
-  background-color: var(--color-border);
-  outline: none;
+  background: var(--color-border);
 }
 
-.search-clear:active {
-  transform: scale(0.95);
-}
-
-@media (min-width: 640px) {
-  .search-container {
-    padding: 1.75rem 1rem;
-  }
-
+@media (max-width: 600px) {
   .search-wrapper {
-    max-width: 500px;
-    margin: 0 auto;
+    min-height: 64px;
+    padding: 0 0.85rem;
+    gap: 0.65rem;
   }
 }

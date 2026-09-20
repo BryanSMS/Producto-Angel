@@ -10,9 +10,9 @@ export function Header() {
           <span className="header-icon-badge">
             <Store size={18} strokeWidth={2} />
           </span>
-          <h1 className="header-title">{tienda.nombre}</h1>
+          <p className="header-title">{tienda.nombre}</p>
         </div>
-        <p className="header-subtitle">{tienda.eslogan}</p>
+        <p className="header-subtitle">Uso interno</p>
       </div>
     </header>
   );

@@ -1,24 +1,27 @@
 :root {
-  /* Paleta "bodega de barrio": verde tienda + naranja de etiqueta de precio */
-  --color-background: #f5f4ef;
-  --color-surface: #ffffff;
-  --color-surface-sunken: #edece5;
-  --color-text-primary: #1a2420;
-  --color-text-secondary: #63706a;
-  --color-brand: #1f6f5c;
-  --color-brand-dark: #164f41;
-  --color-brand-light: #e3f0ec;
-  --color-accent: #ff6a3d;
-  --color-accent-dark: #e05226;
-  --color-accent-light: #ffe4d9;
-  --color-border: #e2e0d5;
-  --color-success: #1f6f5c;
-  --color-warning: #d9932a;
-  --color-error: #d13c3c;
-  --color-disabled: #c9c6ba;
-  --color-available: #1f6f5c;
-  --color-limited: #d9932a;
-  --color-sold-out: #9a968a;
+  color-scheme: dark;
+  --color-background: #171b1a;
+  --color-surface: #202624;
+  --color-surface-sunken: #1b211f;
+  --color-text-primary: #f0f1e9;
+  --color-text-secondary: #a8afa8;
+  --color-brand: #d0ed97;
+  --color-brand-dark: #b7d780;
+  --color-brand-light: #303b27;
+  --color-accent: #d0ed97;
+  --color-accent-dark: #b7d780;
+  --color-accent-light: #303b27;
+  --color-border: #363e39;
+  --color-success: #b7d780;
+  --color-warning: #e6be7c;
+  --color-error: #f0a19a;
+  --color-disabled: #69736b;
+  --color-available: #b7d780;
+  --color-limited: #e6be7c;
+  --color-sold-out: #a8afa8;
+  --page-width: 1400px;
+  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -33,19 +36,6 @@
   --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-full: 9999px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #101512;
-    --color-surface: #182019;
-    --color-surface-sunken: #1e2721;
-    --color-text-primary: #f2f3ee;
-    --color-text-secondary: #a2ab9f;
-    --color-border: #2a332c;
-    --color-brand-light: #1c2b26;
-    --color-accent-light: #3a281f;
-  }
 }
 
 * {
@@ -76,6 +66,7 @@ button {
   border: none;
   background: none;
   font-size: 1rem;
+  color: inherit;
 }
 
 input, textarea, select {
@@ -117,12 +108,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-brand);
+  background: var(--color-border);
   border-radius: var(--radius-md);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-dark);
+  background: var(--color-text-secondary);
 }
 
 /* Utilidades globales */

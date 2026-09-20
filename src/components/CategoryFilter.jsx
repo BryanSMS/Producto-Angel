@@ -1,5 +1,3 @@
-import { LayoutGrid } from 'lucide-react';
-import { getCategoryVisual } from '../utils/categoryVisuals';
 import './CategoryFilter.css';
 
 export function CategoryFilter({
@@ -13,32 +11,28 @@ export function CategoryFilter({
   const showGrupos = activeCategory !== 'Todos' && grupos.length > 1;
 
   return (
-    <div className="category-filter">
+    <nav className="category-filter" aria-label="Categorías de productos">
       <div className="category-scroll">
-        {categories.map((category) => {
-          const isTodos = category === 'Todos';
-          const Icon = isTodos ? LayoutGrid : getCategoryVisual(category).icon;
-
-          return (
+        {categories.map((category) => (
             <button
               key={category}
+              type="button"
               className={`category-button ${activeCategory === category ? 'active' : ''}`}
               onClick={() => onChange(category)}
               aria-pressed={activeCategory === category}
               aria-label={`Filtrar por ${category}`}
             >
-              <Icon size={16} strokeWidth={2} className="category-button-icon" />
               <span>{category}</span>
             </button>
-          );
-        })}
+        ))}
       </div>
 
       {showGrupos && (
-        <div className="grupo-scroll" aria-label="Filtro de grupos">
+        <div className="grupo-scroll" role="group" aria-label="Filtro de grupos">
           {grupos.map((grupo) => (
             <button
               key={grupo}
+              type="button"
               className={`grupo-button ${activeGrupo === grupo ? 'active' : ''}`}
               onClick={() => onChangeGrupo(grupo)}
               aria-pressed={activeGrupo === grupo}
@@ -49,6 +43,6 @@ export function CategoryFilter({
           ))}
         </div>
       )}
-    </div>
+    </nav>
   );
 }

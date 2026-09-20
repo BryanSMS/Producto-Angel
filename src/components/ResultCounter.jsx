@@ -2,11 +2,11 @@ import './ResultCounter.css';
 
 export function ResultCounter({ count }) {
   return (
-    <div className="result-counter">
+    <div className="result-counter" role="status" aria-live="polite" aria-atomic="true">
       <p className="result-text">
         {count === 1 
-          ? `${count} producto disponible` 
-          : `${count} productos disponibles`
+          ? `${count} resultado`
+          : `${count} resultados`
         }
       </p>
     </div>

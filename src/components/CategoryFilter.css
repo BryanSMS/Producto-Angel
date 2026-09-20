@@ -1,141 +1,85 @@
 .category-filter {
-  background-color: var(--color-surface);
-  padding: 1rem 0;
+  min-width: 0;
   border-bottom: 1px solid var(--color-border);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
 }
 
-.category-scroll {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0 1rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.category-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.category-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.625rem 1.125rem;
-  border-radius: var(--radius-full);
-  background-color: var(--color-background);
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
-  font-size: 0.9rem;
-  font-weight: 500;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  outline: none;
-}
-
-.category-button-icon {
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.category-button:hover {
-  background-color: var(--color-brand-light);
-  color: var(--color-text-primary);
-  border-color: var(--color-brand);
-}
-
-.category-button:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 2px;
-}
-
-.category-button:active {
-  transform: scale(0.95);
-}
-
-.category-button.active {
-  background-color: var(--color-brand);
-  color: #fff;
-  border-color: var(--color-brand);
-}
-
-.category-button.active:hover {
-  background-color: var(--color-brand-dark);
-  color: #fff;
-}
-
+.category-scroll,
 .grupo-scroll {
   display: flex;
-  gap: 0.5rem;
-  padding: 0 1rem;
+  align-items: center;
+  gap: 1.5rem;
   overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  max-width: 1200px;
-  margin: 0 auto;
-  animation: slideDown 0.2s ease-out;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+  padding: 4px;
+  margin: 0 -4px;
 }
 
-.grupo-scroll::-webkit-scrollbar {
-  display: none;
-}
-
+.category-button,
 .grupo-button {
-  padding: 0.4rem 0.85rem;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-  border: 1px solid transparent;
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
+  position: relative;
   flex-shrink: 0;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  outline: none;
+  min-height: 44px;
+  padding: 0.75rem 0;
+  color: var(--color-text-secondary);
+  font-size: 0.84rem;
+  white-space: nowrap;
+  transition: color 180ms ease;
 }
 
+.category-button::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms var(--motion-ease);
+}
+
+.category-button:hover,
 .grupo-button:hover {
   color: var(--color-text-primary);
 }
 
-.grupo-button:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 2px;
+.category-button.active {
+  color: var(--color-brand);
+}
+
+.category-button.active::after {
+  transform: scaleX(1);
+}
+
+.grupo-scroll {
+  gap: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.25rem;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.grupo-button {
+  font-size: 0.78rem;
 }
 
 .grupo-button.active {
-  background-color: var(--color-accent-light);
-  color: var(--color-accent-dark);
-  border-color: var(--color-accent);
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 5px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1100px) {
+  .category-scroll,
   .grupo-scroll {
-    justify-content: center;
     flex-wrap: wrap;
-    overflow-x: visible;
+    column-gap: 1.4rem;
+    row-gap: 0;
   }
 }
 
-@media (min-width: 640px) {
-  .category-scroll {
-    gap: 1rem;
-    padding: 0 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    overflow-x: visible;
-  }
-
-  .category-scroll::-webkit-scrollbar {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .category-button::after {
+    transition: none;
   }
 }
