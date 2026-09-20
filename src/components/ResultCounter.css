@@ -1,9 +1,2 @@
-.result-counter {
-  flex-shrink: 0;
-}
-
-.result-text {
-  color: var(--color-text-secondary);
-  font-size: 0.75rem;
-  font-variant-numeric: tabular-nums;
-}
+.result-counter { font-size: 0.58rem; letter-spacing: 0.13em; color: #adb7a6; }
+.result-counter b { font-size: 0.86rem; letter-spacing: -0.025em; color: #edf0df; font-weight: 400; font-variant-numeric: tabular-nums; margin-right: 6px; }

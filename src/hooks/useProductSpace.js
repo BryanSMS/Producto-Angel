@@ -6,87 +6,107 @@ export function useProductSpace(rootRef, enabled) {
     if (!enabled) return;
     const root = rootRef.current;
     const media = gsap.matchMedia();
-
     media.add(pointerMotionQuery, () => {
       let frame = 0;
       let dirty = true;
       let inside = false;
       let pointer = { x: 0, y: 0 };
       let bounds;
-      let visible = [];
+      let arranged = [];
       const spotlight = root.querySelector('.space-spotlight');
-      const quick = (target, property) => gsap.quickTo(target, property, {
-        duration: 0.42, ease: 'power3.out',
-      });
+      const reticle = root.querySelector('.space-reticle');
+      const quick = (target, property) => gsap.quickTo(target, property, { duration: 0.52, ease: 'power3.out' });
       const items = Array.from(root.querySelectorAll('.product-slot'), (slot) => {
         const card = slot.querySelector('.product-card');
         const drift = slot.querySelector('.product-drift');
+        const camera = slot.querySelector('.product-camera');
         return {
-          slot, card, drift, depth: Number(slot.dataset.depth),
+          slot, card, drift, camera, placement: slot.querySelector('.product-placement'),
+          depth: Number(slot.dataset.depth), driftStrength: Number(slot.dataset.drift), parallax: Number(slot.dataset.parallax),
           moveX: quick(drift, 'x'), moveY: quick(drift, 'y'),
           lift: quick(card, 'y'), zoom: quick(card, 'scale'), z: quick(card, 'z'),
-          tiltX: quick(card, 'rotationX'), tiltY: quick(card, 'rotationY'),
-          presence: quick(card, '--proximity'),
+          tiltX: quick(card, 'rotationX'), tiltY: quick(card, 'rotationY'), presence: quick(card, '--proximity'),
+          cameraY: quick(camera, 'y'), cameraZ: quick(camera, 'z'),
         };
       });
+      const wordmark = document.querySelector('.environment-wordmark');
+      const glow = document.querySelector('.environment-glow');
+      const backgroundY = quick(wordmark, 'y');
+      const glowY = quick(glow, 'y');
 
-      // All geometry reads happen together, only when layout/scroll changes.
-      // Slots remain flat: pointer transforms live exclusively in their children.
+      // Cache document coordinates in one read batch. Scrolling and pointer events
+      // only use these numbers; transformed children never feed back into layout.
       const measure = () => {
-        bounds = root.getBoundingClientRect();
-        visible = items.filter(({ slot }) => slot.dataset.visible === 'true').map((item) => {
-          const rect = item.slot.getBoundingClientRect();
-          return { ...item, rect, cx: rect.x + rect.width / 2, cy: rect.y + rect.height / 2 };
-        }).filter(({ rect }) => rect.bottom > -100 && rect.top < window.innerHeight + 100);
+        const scrollY = window.scrollY;
+        const rect = root.getBoundingClientRect();
+        bounds = { left: rect.left, top: rect.top + scrollY, width: rect.width };
+        arranged = items.filter(item => item.slot.dataset.visible === 'true').map(item => {
+          const box = item.placement.getBoundingClientRect();
+          return { item, left: box.left, top: box.top + scrollY, width: box.width, height: box.height };
+        });
         dirty = false;
       };
-
+      const neutral = (item) => {
+        item.moveX(0); item.moveY(0); item.lift(0); item.zoom(1); item.z(0);
+        item.tiltX(0); item.tiltY(0); item.presence(0);
+      };
       const reset = () => {
         inside = false;
-        cancelAnimationFrame(frame);
-        frame = 0;
         root.dataset.pointerActive = 'false';
-        items.forEach((item) => {
-          item.moveX(0); item.moveY(0); item.lift(0); item.zoom(1); item.z(0);
-          item.tiltX(0); item.tiltY(0); item.presence(0);
-        });
+        root.dataset.targetNear = 'false';
+        items.forEach(neutral);
       };
-
+      const clamp = gsap.utils.clamp;
       const render = () => {
         frame = 0;
-        if (!inside || root.dataset.transitioning) return;
+        if (root.dataset.transitioning) return;
         if (dirty) measure();
-        const globalX = gsap.utils.clamp(-1, 1, (pointer.x - bounds.x) / bounds.width * 2 - 1);
-        const globalY = gsap.utils.clamp(-1, 1, (pointer.y - window.innerHeight / 2) / (window.innerHeight / 2));
-        const nearest = visible.reduce((best, item) => {
-          const distance = Math.hypot(pointer.x - item.cx, pointer.y - item.cy);
-          return !best || distance < best.distance ? { item, distance } : best;
+        const scrollY = window.scrollY;
+        const height = window.innerHeight;
+        const visible = arranged.filter(box => box.top + box.height - scrollY > -150 && box.top - scrollY < height + 150);
+        backgroundY(-Math.min(scrollY, 2400) * 0.055);
+        glowY(-Math.min(scrollY, 2400) * 0.022);
+        visible.forEach(box => {
+          const progress = clamp(-1, 1, (box.top + box.height / 2 - scrollY - height / 2) / height);
+          box.item.cameraY(progress * box.item.depth * 32);
+          box.item.cameraZ(-progress * box.item.depth * 12);
+        });
+        if (!inside) return;
+        const nearest = visible.reduce((best, box) => {
+          const cx = box.left + box.width / 2;
+          const cy = box.top - scrollY + box.height / 2;
+          const edge = Math.hypot(Math.max(Math.abs(pointer.x - cx) - box.width / 2, 0), Math.max(Math.abs(pointer.y - cy) - box.height / 2, 0));
+          const score = edge + Math.hypot(pointer.x - cx, pointer.y - cy) * 0.05;
+          return !best || score < best.score ? { box, cx, cy, edge, score } : best;
         }, null);
-        const radius = nearest ? Math.max(nearest.item.rect.width * 0.7, 140) : 1;
-        const strength = nearest ? Math.max(0, 1 - nearest.distance / radius) : 0;
-
-        // A bounded, non-interactive light layer: only transform is repainted.
-        gsap.set(spotlight, { x: pointer.x - bounds.x, y: pointer.y - bounds.y });
+        const strength = nearest ? clamp(0, 1, 1 - nearest.edge / 120) : 0;
+        const globalX = clamp(-1, 1, (pointer.x - bounds.left) / bounds.width * 2 - 1);
+        const globalY = clamp(-1, 1, pointer.y / height * 2 - 1);
+        gsap.set([spotlight, reticle], { x: pointer.x - bounds.left, y: pointer.y + scrollY - bounds.top });
+        gsap.set(reticle, { scale: 1 + strength * 0.25 });
         root.dataset.pointerActive = 'true';
-        visible.forEach((item) => {
-          const active = nearest?.item.slot === item.slot;
+        root.dataset.targetNear = String(strength > 0.4);
+        visible.forEach(box => {
+          const { item } = box;
+          const cx = box.left + box.width / 2;
+          const cy = box.top - scrollY + box.height / 2;
+          const active = nearest?.box === box;
           const proximity = active ? strength : 0;
-          const dx = active ? gsap.utils.clamp(-1, 1, (pointer.x - item.cx) / (item.rect.width / 2)) : 0;
-          const dy = active ? gsap.utils.clamp(-1, 1, (pointer.y - item.cy) / (item.rect.height / 2)) : 0;
-          const separation = nearest ? Math.hypot(item.cx - nearest.item.cx, item.cy - nearest.item.cy) : 0;
-          const push = !active && separation > 0 ? Math.max(0, 1 - separation / 620) * strength * 7 : 0;
-          item.moveX(globalX * item.depth * 4 + (push ? (item.cx - nearest.item.cx) / separation * push : 0));
-          item.moveY(globalY * item.depth * 3 + (push ? (item.cy - nearest.item.cy) / separation * push : 0));
-          item.lift(-13 * proximity);
-          item.zoom(1 + 0.035 * proximity);
-          item.z(24 * proximity);
-          item.tiltX(-dy * 3.5 * proximity);
-          item.tiltY(dx * 4.5 * proximity);
+          const dx = clamp(-1, 1, (pointer.x - cx) / (box.width / 2));
+          const dy = clamp(-1, 1, (pointer.y - cy) / (box.height / 2));
+          const distance = Math.hypot(cx - pointer.x, cy - pointer.y);
+          const push = !active && distance > 0 ? Math.max(0, 1 - distance / 600) * strength * 10 : 0;
+          item.moveX(globalX * item.parallax * 10 + (push ? (cx - pointer.x) / distance * push : 0));
+          item.moveY(globalY * item.parallax * 7 + (push ? (cy - pointer.y) / distance * push : 0));
+          item.lift(-18 * proximity * item.driftStrength);
+          item.zoom(1 + 0.045 * proximity);
+          item.z(38 * proximity);
+          item.tiltX(-dy * 3 * proximity);
+          item.tiltY(dx * 4 * proximity);
           item.presence(proximity);
         });
       };
-
-      const schedule = () => { if (!frame && inside) frame = requestAnimationFrame(render); };
+      const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
       const onMove = (event) => {
         if (event.pointerType === 'touch') { reset(); return; }
         inside = true;
@@ -100,9 +120,10 @@ export function useProductSpace(rootRef, enabled) {
       root.addEventListener('pointerleave', reset);
       root.addEventListener('space:pause', reset);
       root.addEventListener('space:layout', invalidate);
-      window.addEventListener('scroll', invalidate, { passive: true });
+      window.addEventListener('scroll', schedule, { passive: true });
       window.addEventListener('resize', invalidate, { passive: true });
       window.addEventListener('blur', reset);
+      schedule();
 
       return () => {
         cancelAnimationFrame(frame);
@@ -111,15 +132,17 @@ export function useProductSpace(rootRef, enabled) {
         root.removeEventListener('pointerleave', reset);
         root.removeEventListener('space:pause', reset);
         root.removeEventListener('space:layout', invalidate);
-        window.removeEventListener('scroll', invalidate);
+        window.removeEventListener('scroll', schedule);
         window.removeEventListener('resize', invalidate);
         window.removeEventListener('blur', reset);
         delete root.dataset.pointerActive;
-        items.forEach((item) => {
-          [item.moveX, item.moveY, item.lift, item.zoom, item.z, item.tiltX, item.tiltY, item.presence]
-            .forEach((tween) => tween.tween.kill());
-          gsap.set([item.card, item.drift], { clearProps: 'transform,--proximity' });
+        delete root.dataset.targetNear;
+        items.forEach(item => {
+          [item.moveX, item.moveY, item.lift, item.zoom, item.z, item.tiltX, item.tiltY, item.presence, item.cameraY, item.cameraZ].forEach(tween => tween.tween.kill());
+          gsap.set([item.card, item.drift, item.camera], { clearProps: 'transform,--proximity' });
         });
+        backgroundY.tween.kill(); glowY.tween.kill();
+        gsap.set([wordmark, glow], { clearProps: 'transform' });
       };
     }, root);
     return () => media.revert();

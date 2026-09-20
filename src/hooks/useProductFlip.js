@@ -10,6 +10,7 @@ export function useProductFlip(rootRef, filterKey, ready) {
   const finish = useCallback(() => {
     const root = rootRef.current;
     if (!root) return;
+    gsap.set(root.querySelectorAll('.product-slot'), { clearProps: 'filter' });
     delete root.dataset.transitioning;
     root.dispatchEvent(new Event('space:layout'));
   }, [rootRef]);
@@ -54,18 +55,19 @@ export function useProductFlip(rootRef, filterKey, ready) {
     root.dataset.transitioning = 'true';
     transition.current = Flip.from(state, {
       targets: root.querySelectorAll('.product-slot'),
-      duration: 0.44,
+      duration: 0.56,
       ease: 'power2.out',
       scale: true,
       absoluteOnLeave: true,
       prune: true,
       props: 'opacity',
       onEnter: (elements) => gsap.fromTo(elements,
-        { opacity: 0.25, scale: 0.93, y: 18 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.38, stagger: { amount: 0.09 },
-          ease: 'power2.out', clearProps: 'opacity,transform' }),
+        { opacity: 0.12, scale: 0.78, y: 34, filter: 'blur(3px)' },
+        { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)', duration: 0.48, stagger: { amount: 0.1 },
+          ease: 'power3.out', clearProps: 'opacity,transform,filter' }),
       onLeave: (elements) => gsap.to(elements,
-        { opacity: 0, scale: 0.9, y: 16, duration: 0.28, ease: 'power2.in' }),
+        { opacity: 0, scale: 0.76, y: 28, x: (index) => index % 2 ? 18 : -18,
+          filter: 'blur(3px)', duration: 0.32, ease: 'power2.in' }),
       onComplete: finish,
     });
   }, [filterKey, finish, rootRef]);
@@ -74,8 +76,8 @@ export function useProductFlip(rootRef, filterKey, ready) {
     if (!ready || !motionAllowed.current) return;
     entrance.current = gsap.fromTo(
       rootRef.current.querySelectorAll('.product-slot[data-visible="true"]'),
-      { opacity: 0.65, y: 12 },
-      { opacity: 1, y: 0, duration: 0.32, stagger: { amount: 0.12 },
+      { opacity: 0.15, scale: 0.88, y: 26 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.4, stagger: { amount: 0.1 },
         ease: 'power2.out', clearProps: 'opacity,transform', onComplete: finish },
     );
     return () => entrance.current?.progress(1).kill();
